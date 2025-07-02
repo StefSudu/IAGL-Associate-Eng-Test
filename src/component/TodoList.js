@@ -1,34 +1,29 @@
-import React, {Component} from "react";
-import Todo from "./Todo";
-import {fetchTodos} from "../actions";
-import {connect} from "react-redux";
+import React, { useEffect } from 'react';
+import TodoItem from './TodoItem';
+import { useSelector, useDispatch } from 'react-redux';
+import { getTodosAsync } from '../features/todo/todo-slice';
 
-class TodoList extends Component {
-  state = {};
+const TodoList = () => {
+    const dispatch = useDispatch();
+    const todos = useSelector((state) => state.todos);
 
-  componentDidMount() {
-    this.props.fetchTodos();
-  }
+    useEffect(() => {
+        dispatch(getTodosAsync());
+    }, [dispatch]);
 
-  render() {
-    const {todos} = this.props.data;
-    return (<ul className="todo-list">
-      {todos && todos.length
-        ? todos.map((todo, index) => {
-          return <Todo key={`todo-${index}`} todo={todo.task}/>;
-        })
-        : "No todos, yay!"}
-    </ul>);
-  }
-}
+    return (
+        <div className="w-full max-w-2xl mx-auto mt-6">
+            <ul className="space-y-4">
+                {todos.length > 0 ? (
+                    todos.map((todo) => (
+                        <TodoItem key={todo.id} id={todo.id} title={todo.task} completed={todo.completed} />
+                    ))
+                ) : (
+                    <li className="text-center text-gray-500">No todos!</li>
+                )}
+            </ul>
+        </div>
+    );
+};
 
-const mapStateToProps = ({data = {}, isLoadingData = false}) => ({
-  data,
-  isLoadingData
-});
-export default connect(
-  mapStateToProps,
-  {
-    fetchTodos
-  }
-)(TodoList);
+export default TodoList;

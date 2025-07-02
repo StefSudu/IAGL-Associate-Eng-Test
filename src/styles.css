@@ -1,22 +1,54 @@
+body {
+    background-color: #121827;
+    color: #e5e7eb;
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .todo-app {
-    font-family: sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem 1.5rem;
+    background-color: #1f2937; 
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.7);
+    color: #e5e7eb; 
 }
 
-/** add todo **/
+
 .add-todo {
-    margin-left: 0.5rem;
+    margin-left: 0.75rem;
+    display: inline-block;
+    vertical-align: middle;
 }
 
-/** todo list **/
+
 .todo-list {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    padding-left: 0;
     text-align: left;
     list-style: none;
 }
 
-/** todo item **/
+
 .todo-item {
-    font-family: monospace;
+    font-family: 'Courier New', Courier, monospace;
     cursor: pointer;
-    line-height: 1.5;
+    line-height: 1.6;
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid #374151; 
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    user-select: none;
+    color: #d1d5db; 
+}
+
+.todo-item:hover {
+    background-color: #374151; 
+}
+
+.todo-item:active {
+    background-color: #4b5563;
 }

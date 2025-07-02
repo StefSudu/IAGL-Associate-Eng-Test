@@ -4,29 +4,33 @@ const repository = require('./repository/todo');
 const todoService = require('./service/todo')(repository);
 
 const server = () => {
-  const server = express();
-  server.use(express.json());
-  server.use(cors());
+  const app = express();
+  app.use(express.json());
+  app.use(cors());
 
-  server.get('/api/todo', async (req, res) => {
-    res.json(await todoService.getTodos());
+  // get todos
+  app.get('/api/todo', async (req, res) => {
+    const todos = await todoService.getTodos();
+    res.json(todos);
   });
 
-  /**
-  POST /api/todo
-  {
-   "task": "Some API"
-  }
+  // create a new todo
+  app.post('/api/todo', async (req, res) => {
+    const { task } = req.body;
+    if (!task) {
+      return res.status(400).json({ error: 'Task is required' });
+    }
+    const newTodo = await todoService.postTodo(task);
+    res.status(201).json(newTodo);
+  });
 
-   {
-    "todos": [
-      {
-        "task": "Some API"
-      }
-    ]
-   }
-  **/
+  // delete todos
+  app.delete('/api/todo', async (req, res) => {
+    await todoService.deleteAll();
+    res.sendStatus(204);
+  });
 
-  return server;
+  return app;
 };
+
 module.exports = server;
